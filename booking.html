@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="navbar">
+        <div class="logo">
+          <a class="logo" href="index.html">
+            <img src="69.jpeg" alt="School Logo" />
+          </a>
+        </div>
+    
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="hotel.html">Hotel</a></li>
+            <li><a href="booking.html">Booking</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+    <div class="container">
+        <h2>Room Booking Form</h2>
+        <form action="booking.php" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="checkin">Check-in Date:</label>
+                <input type="date" id="checkin" name="checkin" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout">Check-out Date:</label>
+                <input type="date" id="checkout" name="checkout" required>
+            </div>
+            <div class="form-group">
+                <label for="people">Number of People:</label>
+                <input type="number" id="people" name="people" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number:</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea id="comment" name="comment" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <h4>Contact Information</h4>
+              <p>123 Street, Cityville, Country</p>
+              <p>Email: info@ tom Hotel.com</p>
+              <p>Phone: +123 456 789</p>
+            </div>
+            <div class="col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="hotel.html">Hotel</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="col">
+              <h4>Follow Us</h4>
+              <p>&copy; 2024 tom Hotel. All rights reserved.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="copyright">Designed by tom Hotel</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('bookingForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Validate form fields
+        if (validateForm()) {
+            // If form is valid, submit data to server
+            submitFormData();
+        }
+    });
+
+    function validateForm() {
+        // Basic client-side validation
+        const name = document.getElementById('name').value;
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const people = document.getElementById('people').value;
+        const contact = document.getElementById('contact').value;
+        const email = document.getElementById('email').value;
+
+        if (name.trim() === '' || checkin.trim() === '' || checkout.trim() === '' || 
+            people.trim() === '' || contact.trim() === '' || email.trim() === '') {
+            alert('Please fill in all required fields.');
+            return false;
+        }
+
+        return true;
+    }
+
+    function submitFormData() {
+        const form = document.getElementById('bookingForm');
+        const formData = new FormData(form);
+
+        // Send form data to server using fetch API
+        fetch('submit_booking.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Error submitting form.');
+            }
+        })
+        .then(data => {
+            // Handle successful response from server
+            alert(data); // Display any success message received from server
+            form.reset(); // Reset form fields
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
+        });
+    }
+});
+
+      </script>
+</body>
+</html>
